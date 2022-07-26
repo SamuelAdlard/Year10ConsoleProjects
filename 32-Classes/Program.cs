@@ -16,7 +16,10 @@ namespace _32_Classes
             // 4. Add methods
 
             // Wait at end
-            WaitForKeyPress();
+            
+            Console.WriteLine();
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
         }
 
         static void Example()
@@ -26,7 +29,8 @@ namespace _32_Classes
 
             // Create a person
             Person p = new Person("John", "Doe", 42);
-
+            House h = new House(200, 2, "Modern", p);
+            
             // Do things...
             p.PrintInfo();
             p.Sit();
@@ -36,6 +40,7 @@ namespace _32_Classes
             p.Walk(100);
             p.ChangeNamePrompt();
             p.PrintInfo();
+            h.PrintInformation();
         }
 
         static void Links()
@@ -46,9 +51,7 @@ namespace _32_Classes
 
         private static void WaitForKeyPress()
         {
-            Console.WriteLine();
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
+            
         }
     }
 }

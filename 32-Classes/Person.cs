@@ -5,8 +5,8 @@ namespace _32_Classes
 {
     class Person
     {
-        private string firstName;
-        private string lastName;
+        public string firstName;
+        public string lastName;
         private int age;
         private bool sitting;
         private int steps;

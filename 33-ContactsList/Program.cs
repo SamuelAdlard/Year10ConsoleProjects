@@ -5,6 +5,8 @@ namespace _33_ContactsList
 {
     class Program
     {
+        static List<Contact> contactList = new List<Contact>();
+        
         static void Main(string[] args)
         {
             // Challenge: Create a contact list that that can store a list of contacts (plus add, search, remove etc..)
@@ -19,6 +21,18 @@ namespace _33_ContactsList
 
             // Extension:
             // 1. Figure out how to save / load to a file
+        }
+
+        static void AddContact(string firstname, string lastname, string number, string address)
+        {
+            contactList.Add(new Contact(firstname, lastname, number, address));
+
+
+        }
+
+        static void SortContacts()
+        {
+
         }
     }
 }

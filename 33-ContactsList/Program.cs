@@ -10,7 +10,11 @@ namespace _33_ContactsList
         static void Main(string[] args)
         {
             // Challenge: Create a contact list that that can store a list of contacts (plus add, search, remove etc..)
-            
+            AddContact("Sam", "Adlard", "000", "22 Flinders Way Ocean Shores");
+            AddContact("Tom1", "Kuznik", "999", "2 Hart Court Ocean Shores");
+            AddContact("Tom2", "Bghh", "999", "2 Hart Court Ocean Shores");
+            AddContact("Tom3", "Uznik", "999", "2 Hart Court Ocean Shores");
+            AddContact("Tom4", "Kaznik", "999", "2 Hart Court Ocean Shores");
             // Hints: 
             // 1. Create a Contact class
             // 2. Create the properties and methods for this class
@@ -19,6 +23,10 @@ namespace _33_ContactsList
             // 5. Implement methods to add/remove contacts from the list
             // 6. Implement a method to search for contacts
 
+            SortContacts();
+            
+
+            Console.ReadKey();
             // Extension:
             // 1. Figure out how to save / load to a file
         }
@@ -30,9 +38,61 @@ namespace _33_ContactsList
 
         }
 
+        static void PrintList()
+        {
+            Console.WriteLine("test");
+            Console.WriteLine(contactList.Count + "test");
+            foreach (Contact contact in contactList)
+            {
+                string[] info = new string[4];
+                info = contact.GetInformation();
+                
+                foreach (string text in info)
+                {
+                    Console.WriteLine(text);
+                }
+                Console.WriteLine();
+            }
+        }
+
         static void SortContacts()
         {
-
+            Console.WriteLine("list sorted");
+            bool sorted = false;
+            do
+            {
+                sorted = true;
+                int i = 0;
+                string[] info1 = new string[3];
+                string[] info2 = new string[3];
+                info1 = contactList[i].GetInformation();
+                info2 = contactList[i + 1].GetInformation();
+                int placeInName = 0;
+                bool foundDifference = false;
+                while(!foundDifference)
+                {
+                    //Console.WriteLine((int)info1[1][placeInName]);
+                    //Console.WriteLine((int)info2[1][placeInName]);
+                    if ((int)info1[1][placeInName] < (int)info2[1][placeInName])
+                    {
+                        Console.WriteLine("Check");
+                        foundDifference = true;
+                        Contact firstContact = contactList[i];
+                        contactList[i] = contactList[i + 1];
+                        contactList[i + 1] = firstContact;
+                        sorted = false;
+                    }
+                    
+                    if ((int)info1[1][placeInName] == (int)info2[1][placeInName])
+                    {
+                        foundDifference = false;
+                        placeInName++;
+                        Console.WriteLine("Same");
+                    }
+                }
+                i++;
+            }
+            while (!sorted);
         }
     }
 }

@@ -9,11 +9,11 @@ namespace _33_ContactsList
     class Contact
     {
         private string FirstName;
-        private string LastName;
+        public string LastName;
         private string Number;
         private string Address;
 
-        public Contact(string firstname, string number, string address, string lastname)
+        public Contact(string firstname, string lastname, string number , string address)
         {
             FirstName = firstname;
             LastName = lastname;
@@ -39,7 +39,7 @@ namespace _33_ContactsList
 
         public string[] GetInformation()
         {
-            string[] result = new string[3];
+            string[] result = new string[4];
             result[0] = FirstName;
             result[1] = LastName;
             result[2] = Number;

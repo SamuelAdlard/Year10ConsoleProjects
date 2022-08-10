@@ -57,42 +57,76 @@ namespace _33_ContactsList
 
         static void SortContacts()
         {
-            Console.WriteLine("list sorted");
+            int i = 0;
             bool sorted = false;
             do
             {
-                sorted = true;
-                int i = 0;
+                if (i > contactList.Count - 1 && !sorted)
+                {
+                    i = 0;
+                }
+                //checks if sorted
+                sorted = false;
+                //counts place in list
+                
+                //creats two arrays to store contact information
                 string[] info1 = new string[3];
                 string[] info2 = new string[3];
+                //gets the contacts information
                 info1 = contactList[i].GetInformation();
                 info2 = contactList[i + 1].GetInformation();
+                //keeps track of the letter being checked
                 int placeInName = 0;
+                //checks for a difference between letters
                 bool foundDifference = false;
-                while(!foundDifference)
+                do
                 {
-                    //Console.WriteLine((int)info1[1][placeInName]);
-                    //Console.WriteLine((int)info2[1][placeInName]);
-                    if ((int)info1[1][placeInName] < (int)info2[1][placeInName])
+                    Console.WriteLine($"looking at letters {info1[1][placeInName]} and {info2[1][placeInName]} ");
+
+                    if ((int)info1[1][placeInName] > (int)info2[1][placeInName])
                     {
-                        Console.WriteLine("Check");
+                        Console.WriteLine("Swap");
                         foundDifference = true;
                         Contact firstContact = contactList[i];
                         contactList[i] = contactList[i + 1];
                         contactList[i + 1] = firstContact;
+                        i++;
                         sorted = false;
                     }
-                    
+                    else if ((int)info1[1][placeInName] < (int)info2[1][placeInName])
+                    {
+                        //check if already sorted
+                        Console.WriteLine("Keep location");
+                        foundDifference = true;
+                        sorted = false;
+                        i++;
+                    }
+                    Console.WriteLine(i);
                     if ((int)info1[1][placeInName] == (int)info2[1][placeInName])
                     {
                         foundDifference = false;
                         placeInName++;
-                        Console.WriteLine("Same");
+                        Console.WriteLine("letters same new letter");
                     }
-                }
-                i++;
+                    
+                } 
+                while (!foundDifference);
+
+                
             }
             while (!sorted);
+
+
+            Console.WriteLine("list sorted");
+
         }
+
+        static void Swap()
+        {
+
+        }
+
+
+
     }
 }

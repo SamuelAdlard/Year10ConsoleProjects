@@ -15,6 +15,9 @@ namespace _33_ContactsList
             AddContact("Sam", "A", "123123", "1");
             AddContact("Jarrah", "F", "123123", "1");
             AddContact("Ash", "B", "123123", "1");
+
+
+            
             // Hints: 
             // 1. Create a Contact class
             // 2. Create the properties and methods for this class
@@ -28,7 +31,7 @@ namespace _33_ContactsList
                 Console.WriteLine("Press 2 to remove contact");
                 Console.WriteLine("Press 3 to show list");
                 Console.WriteLine("Press 4 to sort list");
-                Console.WriteLine("Press 4 to search for a contact");
+                Console.WriteLine("Press 5 to search for a contact");
                 int choice = int.Parse(Console.ReadLine());
                 UserChoice(choice);
 
@@ -57,7 +60,15 @@ namespace _33_ContactsList
             }
             else if(choice == 4)
             {
-                SortContacts();
+                SortContacts(false);
+            }
+            else if(choice == 5)
+            {
+                Console.WriteLine("Enter the name:");
+                
+                string name = Console.ReadLine();
+                SortContacts(true);
+                Console.WriteLine(Search(name, 0, contactList.Count - 1, 0)); 
             }
         }
 
@@ -102,21 +113,26 @@ namespace _33_ContactsList
             }
         }
 
-        static void SortContacts()
+        static void SortContacts(bool searching)
         {
             Console.Clear();
+            
             int comparing = 0;
-            Console.WriteLine("Press 1 to sort by first name");
-            Console.WriteLine("Press 2 to sort by last name");
-            comparing = int.Parse(Console.ReadLine());
-            if (comparing == 1)
+            if (!searching)
             {
-                comparing = 0;
+                Console.WriteLine("Press 1 to sort by first name");
+                Console.WriteLine("Press 2 to sort by last name");
+                comparing = int.Parse(Console.ReadLine());
+                if (comparing == 1)
+                {
+                    comparing = 0;
+                }
+                else
+                {
+                    comparing = 1;
+                }
             }
-            else
-            {
-                comparing = 1;
-            }
+            
             int i = 0;
             bool endsort = false;
             bool sorted = true;
@@ -168,11 +184,69 @@ namespace _33_ContactsList
         }
 
 
-        static void Search(string name)
+        static int Search(string name,int low, int high, int searchingfor)
         {
+            int middle = FindMiddle(low, high);
+            Console.WriteLine(middle);
+            if (contactList[middle].GetInformation()[searchingfor] == name)
+            {
+                return middle;
+            }
+            
+            if (comparename(name, middle, searchingfor))
+            {
+                high = middle;
+            }
+            else
+            {
+                low = middle;
+            }
+
+            return Search(name, low, high, searchingfor);
+            
+        }
+
+        static bool comparename(string name, int middle, int searchingfor)
+        {
+            bool foundDifference = false;
+            int checkingLetter = 0;
+            string newName = name.ToLower();
+            string middleName = contactList[middle].GetInformation()[searchingfor].ToLower();
+            do
+            {
+
+                if (newName[checkingLetter] > middleName[checkingLetter])
+                {
+                    foundDifference = true;
+                    return true;
+                }
+
+                if (newName[checkingLetter] < middleName[checkingLetter])
+                {
+                    foundDifference = true;
+                    return false;
+                }
+
+                if (newName[checkingLetter] == middleName[checkingLetter])
+                {
+                    checkingLetter++;
+                }
+
+                
+            }
+            while (!foundDifference);
+
+            return true;
 
         }
 
+
+        static int FindMiddle(int startIndex, int endIndex)
+        {
+            int middle = startIndex + endIndex;
+            middle /= 2;
+            return middle;
+        }
 
 
 

@@ -68,7 +68,11 @@ namespace _33_ContactsList
                 
                 string name = Console.ReadLine();
                 SortContacts(true);
-                Console.WriteLine(Search(name, 0, contactList.Count - 1, 0)); 
+                if (Search(name, 0, contactList.Count - 1, 0) >= 0)
+                {
+                    Console.WriteLine("Finished. Found at index " + Search(name, 0, contactList.Count - 1, 0));
+                }
+                 
             }
         }
 
@@ -104,10 +108,11 @@ namespace _33_ContactsList
             {
                 string[] info = new string[4];
                 info = contact.GetInformation();
-                
+                Console.WriteLine(contactList.IndexOf(contact));
                 foreach (string text in info)
                 {
                     Console.WriteLine(text);
+                    
                 }
                 Console.WriteLine();
             }
@@ -162,7 +167,7 @@ namespace _33_ContactsList
                 //gets the contacts information
                 info1 = contactList[i].GetInformation();
                 info2 = contactList[i + 1].GetInformation();
-                //keeps track of the letter being checked
+                //keeps track of the letters being compared
                 int placeInName = 0;
                 //checks for a difference between letters
                 bool foundDifference = false;
@@ -187,19 +192,35 @@ namespace _33_ContactsList
         static int Search(string name,int low, int high, int searchingfor)
         {
             int middle = FindMiddle(low, high);
-            Console.WriteLine(middle);
+            //Console.WriteLine("High:" + high);
+            //Console.WriteLine("Middle:" + middle);
+            //Console.WriteLine("Low:" + low);
+            //Console.WriteLine("High:" + contactList[high].GetInformation()[searchingfor]);
+            //Console.WriteLine("Middle:" + contactList[middle].GetInformation()[searchingfor]);
+            //Console.WriteLine("Low:" + contactList[low].GetInformation()[searchingfor]);
+
             if (contactList[middle].GetInformation()[searchingfor] == name)
             {
+                
                 return middle;
             }
             
             if (comparename(name, middle, searchingfor))
             {
-                high = middle;
+                low = middle;
             }
             else
             {
-                low = middle;
+                high = middle;
+                
+            }
+
+            if (middle == low && high == middle)
+            {
+
+
+                Console.WriteLine("Not Found");
+                return -1;
             }
 
             return Search(name, low, high, searchingfor);
@@ -217,13 +238,13 @@ namespace _33_ContactsList
 
                 if (newName[checkingLetter] > middleName[checkingLetter])
                 {
-                    foundDifference = true;
+                    
                     return true;
                 }
 
                 if (newName[checkingLetter] < middleName[checkingLetter])
                 {
-                    foundDifference = true;
+                    
                     return false;
                 }
 
@@ -243,9 +264,9 @@ namespace _33_ContactsList
 
         static int FindMiddle(int startIndex, int endIndex)
         {
-            int middle = startIndex + endIndex;
+            double middle = startIndex + endIndex;
             middle /= 2;
-            return middle;
+            return (int)Math.Round(middle);
         }
 
 

@@ -32,8 +32,21 @@ namespace _33_ContactsList
                 Console.WriteLine("Press 3 to show list");
                 Console.WriteLine("Press 4 to sort list");
                 Console.WriteLine("Press 5 to search for a contact");
-                int choice = int.Parse(Console.ReadLine());
-                UserChoice(choice);
+                
+                string input = Console.ReadLine();
+                if(int.TryParse(input, out int choice))
+                {
+                    UserChoice(choice);
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Please enter a number");
+                }
+               
+                
+                
+                
 
             }
 
@@ -52,7 +65,7 @@ namespace _33_ContactsList
             }
             else if (choice == 2)
             {
-
+                RemoveContact();
             }
             else if(choice == 3)
             {
@@ -68,9 +81,12 @@ namespace _33_ContactsList
                 
                 string name = Console.ReadLine();
                 SortContacts(true);
-                if (Search(name, 0, contactList.Count - 1, 0) >= 0)
+                int index = Search(name, 0, contactList.Count - 1, 0, 0);
+                if (index >= 0)
                 {
-                    Console.WriteLine("Finished. Found at index " + Search(name, 0, contactList.Count - 1, 0));
+                    Console.Clear();
+                    Console.WriteLine($"Found for contact '{name}'");
+                    PrintContact(index);
                 }
                  
             }
@@ -99,6 +115,36 @@ namespace _33_ContactsList
             contactList.Add(new Contact(firstname, lastname, number, address));
         }
 
+        static void PrintContact(int index)
+        {
+            
+            Contact contact = contactList[index];
+            string[] info = new string[4];
+            info = contact.GetInformation();
+            //Console.WriteLine(contactList.IndexOf(contact));
+            Console.WriteLine();
+            Console.WriteLine($"Name: {info[0]} {info[1]}");
+            Console.WriteLine($"Phone number: {info[2]}");
+            Console.WriteLine($"Address: {info[3]}");
+            Console.WriteLine();
+        }
+
+        static void RemoveContact()
+        {
+            Console.WriteLine("Enter the name:");
+
+            string name = Console.ReadLine();
+            SortContacts(true);
+            int index = Search(name, 0, contactList.Count - 1, 0, 0);
+            if (index >= 0)
+            {
+                Console.Clear();
+                
+                contactList.RemoveAt(index);
+            }
+            
+        }
+
         static void PrintList()
         {
             Console.Clear();
@@ -108,13 +154,7 @@ namespace _33_ContactsList
             {
                 string[] info = new string[4];
                 info = contact.GetInformation();
-                Console.WriteLine(contactList.IndexOf(contact));
-                foreach (string text in info)
-                {
-                    Console.WriteLine(text);
-                    
-                }
-                Console.WriteLine();
+                Console.WriteLine(info[0]);
             }
         }
 
@@ -189,7 +229,7 @@ namespace _33_ContactsList
         }
 
 
-        static int Search(string name,int low, int high, int searchingfor)
+        static int Search(string name,int low, int high, int searchingfor, int numberOfCycles)
         {
             int middle = FindMiddle(low, high);
             //Console.WriteLine("High:" + high);
@@ -215,15 +255,16 @@ namespace _33_ContactsList
                 
             }
 
-            if (middle == low && high == middle)
+            if (low == high)
             {
 
 
                 Console.WriteLine("Not Found");
                 return -1;
             }
+           
 
-            return Search(name, low, high, searchingfor);
+            return Search(name, low, high, searchingfor, numberOfCycles++);
             
         }
 

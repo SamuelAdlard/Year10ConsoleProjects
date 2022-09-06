@@ -9,7 +9,7 @@ namespace _33_ContactsList
     class Contact
     {
         private string FirstName;
-        public string LastName;
+        private string LastName;
         private string Number;
         private string Address;
 

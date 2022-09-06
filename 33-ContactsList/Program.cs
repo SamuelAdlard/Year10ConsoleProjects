@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace _33_ContactsList
 {
@@ -32,7 +33,8 @@ namespace _33_ContactsList
                 Console.WriteLine("Press 3 to show list");
                 Console.WriteLine("Press 4 to sort list");
                 Console.WriteLine("Press 5 to search for a contact");
-                
+                Console.WriteLine("Press 6 to save the list");
+                Console.WriteLine("Press 7 to load a list");
                 string input = Console.ReadLine();
                 if(int.TryParse(input, out int choice))
                 {
@@ -90,9 +92,72 @@ namespace _33_ContactsList
                 }
                  
             }
+            else if(choice == 6)
+            {
+                
+                SaveToFile();
+            }
+            else if(choice == 7)
+            {
+                LoadFromFile();
+            }
+            
         }
 
+        static void SaveToFile()
+        {
+            Console.Clear();
+            Console.WriteLine("Please enter the file name:");
+            string name = Console.ReadLine();
+            string directory = System.IO.Directory.GetCurrentDirectory();
+            using (StreamWriter sw = new StreamWriter($"{directory}/{name}.txt"))
+            {
+                foreach (Contact contact in contactList)
+                {
+                    string[] info = contact.GetInformation();
+                    foreach (string text in info)
+                    {
+                        sw.WriteLine(text);
+                    }
+                }
+            }
+        }
 
+        static void LoadFromFile()
+        {
+            Console.Clear();
+            Console.WriteLine("Please enter the name of the file:");
+            string name = Console.ReadLine();
+            string directory = System.IO.Directory.GetCurrentDirectory();
+            try
+            {
+               
+                using (StreamReader sr = new StreamReader($"{directory}/{name}.txt"))
+                {
+                    string line;
+                    int i = 0;
+                    string[] text = new string[4];
+                    while ((line = sr.ReadLine()) != null)
+                    {
+                        Console.WriteLine(line);
+                        i++;
+                        text[i] = line;
+                        if ((i + 1) / 4 > 0)
+                        {
+                            i = 0;
+                            AddContact(text[0], text[1], text[2], text[3]);
+                        }
+
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                // Let the user know what went wrong.
+                Console.WriteLine("The file could not be read:");
+                Console.WriteLine(e.Message);
+            }
+        }
 
         static void AskUserForContact()
         {

@@ -35,6 +35,7 @@ namespace _33_ContactsList
                 Console.WriteLine("Press 5 to search for a contact");
                 Console.WriteLine("Press 6 to save the list");
                 Console.WriteLine("Press 7 to load a list");
+                Console.WriteLine("Press 8 to clear the list");
                 string input = Console.ReadLine();
                 if(int.TryParse(input, out int choice))
                 {
@@ -88,6 +89,7 @@ namespace _33_ContactsList
                 {
                     Console.Clear();
                     Console.WriteLine($"Found for contact '{name}'");
+                    
                     PrintContact(index);
                 }
                  
@@ -101,7 +103,18 @@ namespace _33_ContactsList
             {
                 LoadFromFile();
             }
-            
+            else if (choice == 8)
+            {
+                Console.Clear();
+                contactList.Clear();
+
+                Console.WriteLine("List cleared");
+            }
+            else
+            {
+                Console.WriteLine($"{choice} is not an option");
+            }
+
         }
 
         static void SaveToFile()
@@ -126,6 +139,7 @@ namespace _33_ContactsList
         static void LoadFromFile()
         {
             Console.Clear();
+            contactList.Clear();
             Console.WriteLine("Please enter the name of the file:");
             string name = Console.ReadLine();
             string directory = System.IO.Directory.GetCurrentDirectory();
@@ -139,17 +153,20 @@ namespace _33_ContactsList
                     string[] text = new string[4];
                     while ((line = sr.ReadLine()) != null)
                     {
-                        Console.WriteLine(line);
+                        
                         i++;
-                        text[i] = line;
-                        if ((i + 1) / 4 > 0)
+                        text[i - 1] = line;
+                        
+                        if ( i == 4)
                         {
+                            
                             i = 0;
                             AddContact(text[0], text[1], text[2], text[3]);
                         }
 
                     }
                 }
+                Console.WriteLine("List succesfully loaded");
             }
             catch (Exception e)
             {

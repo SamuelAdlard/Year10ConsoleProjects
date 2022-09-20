@@ -21,7 +21,8 @@ namespace _35_APIs
 
             while (tryAgain.ToLower() == "y")
             {
-                GetF1Data();
+                //GetF1Data();
+                ParliamentAPI.GetData();
 
                 tryAgain = Console.ReadLine();
             }
